@@ -270,6 +270,7 @@ local lang = {
   ["tls_certificate"] = "TLS Certificate",
   ["today"] = "Today",
   ["toggle_dark_theme"] = "Toggle Dark Theme",
+  ["too_many_exports"] = "Too many flow export drops",
   ["too_many_flows"] = "Too many flows",
   ["too_many_hosts"] = "Too many hosts",
   ["tools"] = "Tools",
@@ -360,6 +361,7 @@ local lang = {
     ["system_id"] = "System Id",
     ["telegram"] = "Help and News",
     ["telemetry_data_opt_out_msg"] = "Contribute to the project by sending encrypted, <a href=\"%{tel_url}\">anonymous telemetry data</a> to <a href=\"%{ntop_org}\">ntop.org</a>.",
+    ["too_many_exports"] = "Restart %{product} removing <code>-F</code> option or use a faster storage.",
     ["upgrade_to_professional"] = "Upgrade to Pro/Enterprise version",
     ["uptime"] = "Uptime",
     ["user_scripts"] = "User Scripts",
@@ -695,6 +697,10 @@ local lang = {
     ["thresholds_single_source"] = "%{source} %{alt_name} Configuration",
     ["throughput"] = "Throughput Alert",
   },
+  ["appliance"] = {
+    ["capture_interfaces"] = "Capture Interfaces",
+    ["management"] = "Management Interface",
+  },
   ["arp_page"] = {
     ["arp_type"] = "ARP Type",
   },
@@ -990,6 +996,7 @@ local lang = {
     ["msg_err_unknown"] = "An unknown error occurred.",
     ["node_nindex_flows"] = "WARNING: nIndex is enabled for flows dump, historical flows information will not be deleted.",
     ["note_persistent_data"] = "All the persistent data is deleted. Data include traffic counters, timeseries, flows, alerts, and Redis caches.",
+    ["restart_product_toast"] = "Restart %{product} to make the deletion of active interface effective.",
   },
   ["details"] = {
     ["additional_mac_address"] = "Additional MAC Address",

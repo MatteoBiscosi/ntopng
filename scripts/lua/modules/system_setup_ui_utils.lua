@@ -23,7 +23,7 @@ local subpages = {
    {name = "network_interfaces", nedge_only = false, label = i18n("prefs.network_interfaces"), url = "interfaces.lua" },
    {name = "network_setup",      nedge_only = false, label = i18n("nedge.interfaces_configuration"), url = "network.lua"},
    {name = "dhcp",               nedge_only = false, label = i18n("nedge.dhcp_server"), url = "dhcp.lua", routing_only = true},
-   {name = "dns",                nedge_only = false, label = i18n("nedge.dns_configuration"), url = "dns.lua", vlan_trunk = false},
+   {name = "dns",                nedge_only = true, label = i18n("nedge.dns_configuration"), url = "dns.lua", vlan_trunk = false},
    {name = "captive_portal",     nedge_only = true,  label = i18n("prefs.toggle_captive_portal_title"), url = "captive_portal.lua", vlan_trunk = false},
    {name = "shapers",            nedge_only = true,  label = i18n("nedge.shapers"), url="shapers.lua"},
    {name = "gateways",           nedge_only = true,  label = i18n("nedge.gateways"), url = "gateways.lua", routing_only = true},
@@ -81,11 +81,14 @@ function system_setup_ui_utils.printConfigChange(sys_config, warnings)
    local config_changed = sys_config.configChanged()
 
    if config_changed or first_start then
-      local dhcp_config = sys_config:getDhcpServerConfig()
 
-      if dhcp_config.enabled then
-         if not sys_config:hasValidDhcpRange(dhcp_config.subnet.first_ip, dhcp_config.subnet.last_ip) then
-            warnings[#warnings + 1] = i18n("nedge.invalid_dhcp_range")
+      if is_nedge then
+         local dhcp_config = sys_config:getDhcpServerConfig()
+
+         if dhcp_config.enabled then
+            if not sys_config:hasValidDhcpRange(dhcp_config.subnet.first_ip, dhcp_config.subnet.last_ip) then
+               warnings[#warnings + 1] = i18n("nedge.invalid_dhcp_range")
+            end
          end
       end
 
@@ -172,13 +175,9 @@ function system_setup_ui_utils.printPageBody(sys_config, print_page_body_callbac
    for _, subpage in ipairs(subpages) do
       if not is_nedge and subpage.nedge_only then
          goto continue
-      end
-
-      if (subpage.routing_only == true) and (not sys_config:isMultipathRoutingEnabled()) then
+      elseif (subpage.routing_only == true) and (not sys_config:isMultipathRoutingEnabled()) then
          goto continue
-      end
-
-      if (subpage.vlan_trunk == false) and (sys_config:isBridgeOverVLANTrunkEnabled()) then
+      elseif (subpage.vlan_trunk == false) and (sys_config:isBridgeOverVLANTrunkEnabled()) then
          goto continue
       end
 
@@ -284,7 +283,7 @@ function system_setup_ui_utils.printPrivateAddressSelector(label, comment, ip_ke
    end
 
    if extra.net_select ~= false then
-      print[[<select name="]] print(field_id) print[[_net" class="form-control">]]
+      print[[<select name="]] print(field_id) print[[_net" class="form-control d-inline-block" style="width: 9.6rem">]]
 
       for _, preset in pairs(networks_presets) do
          print[[<option value="]] print(preset.prefix) print[["]]

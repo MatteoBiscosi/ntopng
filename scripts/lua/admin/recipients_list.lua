@@ -3,7 +3,7 @@
 --
 local dirs = ntop.getDirs()
 package.path = dirs.installdir .. "/scripts/lua/modules/?.lua;" .. package.path
-package.path = dirs.installdir .. "/scripts/lua/modules/notifications/?.lua;" .. package.path
+package.path = dirs.installdir .. "/scripts/lua/modules/toasts/?.lua;" .. package.path
 
 require "lua_utils"
 
@@ -12,11 +12,11 @@ local ui_utils = require("ui_utils")
 local template = require "template_utils"
 local json = require "dkjson"
 local plugins_utils = require("plugins_utils")
-local notifications_manager = require("notifications_manager")
+local toasts_manager = require("toasts_manager")
 local user_scripts = require("user_scripts")
 local alert_consts = require("alert_consts")
-local notification_configs = require("notification_configs")
-local endpoints = notification_configs.get_configs(true)
+local endpoint_configs = require("endpoints")
+local endpoints = endpoint_configs.get_configs(true)
 
 if not haveAdminPrivileges() then
     return
@@ -29,7 +29,7 @@ page_utils.set_active_menu_entry(page_utils.menu_entries.endpoint_recipients)
 -- append the menu above the page
 dofile(dirs.installdir .. "/scripts/lua/inc/menu.lua")
 -- print a notification container used by the AJAX operations
-notifications_manager.render_notifications('recipients', {})
+toasts_manager.render_toasts('recipients', {})
 
 local url = ntop.getHttpPrefix() .. "/lua/admin/recipients_list.lua"
 page_utils.print_navbar(i18n("endpoint_notifications.recipient_list"), url, {
@@ -42,7 +42,7 @@ page_utils.print_navbar(i18n("endpoint_notifications.recipient_list"), url, {
 })
 
 -- localize endpoint name types in a table
-local endpoints_types = notification_configs.get_types()
+local endpoints_types = endpoint_configs.get_types()
 local endpoint_types_labels = {}
 -- create a table to filter recipient by endpoint's type
 local endpoint_type_filters = {}
